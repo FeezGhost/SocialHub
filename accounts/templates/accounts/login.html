@@ -6,17 +6,17 @@
 Signup
 {% endblock head-title %}
 {% block content %}
-<form>
-  
+<form  method="POST">
+  {% csrf_token %}
       <div class="form-outline">
-        <input type="text" id="form3Example1" class="form-control" />
-        <label class="form-label" for="form3Example1">Username</label>
+        <input type="text" id="username" name="username" class="form-control" />
+        <label class="form-label" for="username">Username</label>
       </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4">
-    <input type="password" id="form3Example4" class="form-control" />
-    <label class="form-label" for="form3Example4">Password</label>
+    <input type="password" id="password" name="password" class="form-control" />
+    <label class="form-label" for="password">Password</label>
   </div>
 
   <!-- Submit button -->
