@@ -1,0 +1,27 @@
+{%  extends 'accounts/base_template.html' %}
+
+{% load static %}
+
+{% block head-title %}
+Signup
+{% endblock head-title %}
+{% block content %}
+<form>
+  
+      <div class="form-outline">
+        <input type="text" id="form3Example1" class="form-control" />
+        <label class="form-label" for="form3Example1">Username</label>
+      </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <input type="password" id="form3Example4" class="form-control" />
+    <label class="form-label" for="form3Example4">Password</label>
+  </div>
+
+  <!-- Submit button -->
+  <button type="submit" class="btn btn-primary btn-block mb-4">
+    Login
+  </button>
+</form>
+{% endblock content %}
