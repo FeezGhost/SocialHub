@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import UserPostForm
 
 from .models import Tag, UserPost
+import geopy
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
 
 # Create your views here.
 
@@ -23,6 +26,7 @@ def addPostTags(tags: str, Id):
 def createPost(request):
     form = UserPostForm()
     if request.method == 'POST':
+        locator = Nominatim(user_agent="myGeocoder")
         form = UserPostForm(request.POST)
         if form.is_valid():
             f_title = form.cleaned_data.get('title')
@@ -32,13 +36,16 @@ def createPost(request):
             latitude = 0 if latitude == '' else float(latitude)
             longitude = request.POST.get('lng')
             longitude = 0 if longitude =='' else float(longitude)
+            coordinates = str(latitude) + ", " + str(longitude)
+            location = locator.reverse(coordinates)
             userPostObj = UserPost.objects.create(
                 title = f_title,
                 description = f_description,
                 location = f_location,
                 client = request.user.client,
                 lat = latitude,
-                lng = longitude
+                lng = longitude,
+                location = location.address
             )
             addPostTags(request.POST.get('tags'), userPostObj.id)
     context = {'form': form}
