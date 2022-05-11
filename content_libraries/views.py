@@ -37,15 +37,20 @@ def createPost(request):
             longitude = request.POST.get('lng')
             longitude = 0 if longitude =='' else float(longitude)
             coordinates = str(latitude) + ", " + str(longitude)
-            location = locator.reverse(coordinates)
+            if(f_location == ''): 
+                geo_location = locator.reverse(coordinates)
+                f_location = geo_location.address
+            else :
+                geo_location = locator.geocode(f_location)
+                latitude = float(geo_location.latitude)
+                longitude = float(geo_location.longitude)
             userPostObj = UserPost.objects.create(
                 title = f_title,
                 description = f_description,
-                location = f_location,
                 client = request.user.client,
                 lat = latitude,
                 lng = longitude,
-                location = location.address
+                location = f_location
             )
             addPostTags(request.POST.get('tags'), userPostObj.id)
     context = {'form': form}
