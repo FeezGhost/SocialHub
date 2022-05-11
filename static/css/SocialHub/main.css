@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700&display=swap");
 
 :root {
-    --page-header-bgColor: #242e42;
+    --page-header-bgColor: #2d446c;
     --page-header-bgColor-hover: #1d2636;
     --page-header-txtColor: #dde9f8;
     --page-header-headingColor: #7889a4;
@@ -27,6 +27,18 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+*::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #354e7a;
+}
+*::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: hsl(218, 41%, 20%);
 }
 
 ul {
@@ -86,7 +98,7 @@ body {
     padding-top: 20px;
     width: var(--page-header-width);
     color: var(--page-header-txtColor);
-    background: var(--page-header-bgColor);
+    background: radial-gradient(650px circle at 0% 0%, hsl(218, 41%, 35%) 33%, hsl(218, 41%, 30%) 47%, hsl(218, 41%, 20%) 92%, hsl(218, 41%, 19%) 126%);
 }
 
 /*In case you prefer an absolutely positioned header that covers the full page height, add these styles*/
@@ -145,6 +157,7 @@ body {
     flex-direction: column;
     flex-grow: 1;
     margin-top: 35px;
+    padding-left: 0px;
 }
 
 .page-header .admin-menu li:nth-last-child(2) {

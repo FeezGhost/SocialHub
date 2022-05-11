@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'calenders.apps.CalendersConfig',
     'content_libraries.apps.ContentLibrariesConfig',
+    'utilaties.apps.UtilatiesConfig'
 ]
 
 MIDDLEWARE = [
