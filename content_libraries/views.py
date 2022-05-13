@@ -50,8 +50,6 @@ def createPost(request):
             tempDate = datetime.datetime.now()
             if date != '':
                 tempDate = parser.parse(date)
-                # curr_date = datetime.now()
-                # curr_date.
                 if tempDate < datetime.datetime.now():
                     tempDate = datetime.datetime.now()
                 else: 
