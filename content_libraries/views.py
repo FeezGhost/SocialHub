@@ -1,10 +1,11 @@
+import datetime
 from django.shortcuts import redirect, render
 from .forms import UserPostForm
 
 from .models import Tag, UserPost
-import geopy
 from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
+from dateutil import parser
+from django.utils.timezone import make_aware
 
 # Create your views here.
 
@@ -37,20 +38,32 @@ def createPost(request):
             longitude = request.POST.get('lng')
             longitude = 0 if longitude =='' else float(longitude)
             coordinates = str(latitude) + ", " + str(longitude)
-            if(f_location == ''): 
+            if(f_location == '' or f_location == None): 
                 geo_location = locator.reverse(coordinates)
                 f_location = geo_location.address
             else :
                 geo_location = locator.geocode(f_location)
                 latitude = float(geo_location.latitude)
                 longitude = float(geo_location.longitude)
+            
+            date = request.POST.get('startDate')
+            tempDate = datetime.datetime.now()
+            if date != '':
+                tempDate = parser.parse(date)
+                # curr_date = datetime.now()
+                # curr_date.
+                if tempDate < datetime.datetime.now():
+                    tempDate = datetime.datetime.now()
+                else: 
+                    tempDate = make_aware(tempDate)
             userPostObj = UserPost.objects.create(
                 title = f_title,
                 description = f_description,
                 client = request.user.client,
                 lat = latitude,
                 lng = longitude,
-                location = f_location
+                location = f_location,
+                dateToBuy = tempDate
             )
             addPostTags(request.POST.get('tags'), userPostObj.id)
     context = {'form': form}
