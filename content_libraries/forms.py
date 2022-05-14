@@ -36,4 +36,4 @@ class UserPostForm(ModelForm):
     class Meta:
         model =  UserPost
         fields = '__all__'
-        exclude = ['client', 'lat', 'lng', 'timeCreated', 'dateCreated', 'dateToBuy', 'picture','platform' ]
+        exclude = ['client', 'lat', 'lng', 'timeCreated', 'dateCreated', 'dateToBuy','platform' ]

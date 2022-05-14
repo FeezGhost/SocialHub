@@ -33,6 +33,7 @@ def createPost(request):
             f_title = form.cleaned_data.get('title')
             f_description = form.cleaned_data.get('description')
             f_location = form.cleaned_data.get('location')
+            f_picture = form.cleaned_data.get('picture')
             latitude = request.POST.get('lat')
             latitude = 0 if latitude == '' else float(latitude)
             longitude = request.POST.get('lng')
@@ -61,7 +62,8 @@ def createPost(request):
                 lat = latitude,
                 lng = longitude,
                 location = f_location,
-                dateToBuy = tempDate
+                dateToBuy = tempDate,
+                picture = f_picture
             )
             addPostTags(request.POST.get('tags'), userPostObj.id)
     context = {'form': form}
