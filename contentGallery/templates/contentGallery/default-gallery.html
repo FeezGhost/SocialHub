@@ -13,35 +13,32 @@
 {% block content %}
 <section>
     <div class="container p-5">
-
             <div class="pswp-gallery pswp-gallery--single-column d-flex flex-wrap justify-content-evenly align-items-center" id="gallery--getting-started">
                 {% for userPost in userPosts %}
-                <div class="picture-sm">
-                    <div class="mb-2">
-                        <a href="{{userPost.picture.url}}"
-                            {% if userPost.picture.width > 1500 %}
-                                data-pswp-width=1500px
-                            {% else %}
-                                data-pswp-width={{userPost.picture.width}}px
-                            {% endif %}
-                            data-pswp-height={{userPost.picture.height}}px
-                        
-                            data-cropped="true" target="_blank">
-                            <figure>
-                            <img src="{{userPost.picture.url}}" width={{userPost.smWidth}} height = {{userPost.smHeight}}  alt="" />
-                        </figure>
-                            <div class="hidden-caption-content">
-                                {{userPost.title}}
-                            </div>
+                    <div class="picture-sm">
+                        <div class="mb-2">
+                            <a href="{{userPost.picture.url}}"
+                                {% if userPost.picture.width > 1500 %}
+                                    data-pswp-width=1500px
+                                {% else %}
+                                    data-pswp-width={{userPost.picture.width}}px
+                                {% endif %}
+                                data-pswp-height={{userPost.picture.height}}px
+                            
+                                data-cropped="true" target="_blank">
+                                <figure>
+                                <img src="{{userPost.picture.url}}" width={{userPost.smWidth}} height = {{userPost.smHeight}}  alt="" />
+                            </figure>
+                                <div class="hidden-caption-content">
+                                    {{userPost.title}}
+                                </div>
 
-                            <div class="hidden-link-content">{% url 'facebookPost' %}</div>
-                        </a>
+                                <div class="hidden-link-content">{% url 'facebookPost' %}</div>
+                            </a>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
-
         </div>
-
     </div>
 </section>
 

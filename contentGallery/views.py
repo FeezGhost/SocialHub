@@ -10,10 +10,6 @@ def gallery(request):
     userPosts = client.client_posts.all()
     userpostResponseDto = []
     for userp in userPosts:
-        # if userp.picture.width > 1500:
-        #     userp.picture.width = 1500
-        # if userp.picture.height > 1000:
-        #     userp.picture.width = 1000
         userpostResponse =  UserPostListResponseDto(
             title = userp.title,
             picture = userp.picture,
