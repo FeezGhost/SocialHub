@@ -12,7 +12,7 @@ class PlatformChoice(models.TextChoices):
     TWITTER = 'Twitter', 'Twitter'
 
 class UserPost(models.Model):
-    client = models.ForeignKey(Client, null=True, on_delete= models.SET_NULL)
+    client = models.ForeignKey(Client, null=True, on_delete= models.SET_NULL, related_name='client_posts')
     platform = models.CharField(choices=PlatformChoice.choices, default=PlatformChoice.FACEBOOK, max_length=128)
     title = models.CharField(max_length=200, null=True, blank=True)
     picture = models.ImageField(null=True, blank=True)

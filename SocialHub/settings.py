@@ -28,7 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js", True)
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +43,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'calenders.apps.CalendersConfig',
     'content_libraries.apps.ContentLibrariesConfig',
-    'utilaties.apps.UtilatiesConfig'
+    'utilaties.apps.UtilatiesConfig',
+    'contentGallery.apps.ContentgalleryConfig'
 ]
 
 MIDDLEWARE = [

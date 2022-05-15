@@ -1,0 +1,89 @@
+
+    .pswp__custom-caption {
+        background: hsl(218deg 45% 51% / 83%) 47%;
+        font-size: 16px;
+        color: #fff;
+        width: calc(100% - 32px);
+        max-width: 400px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        position: absolute;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+    }
+
+    .pswp__custom-caption a {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .hidden-caption-content {
+        display: none;
+    }
+
+    .hidden-link-content {
+        display: none;
+    }
+    .pswp-gallery .picture-sm figure img{
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            -webkit-filter: grayscale(60%);
+            filter: grayscale(60%);
+            -webkit-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;
+    }
+    .pswp-gallery .picture-sm figure:hover img{
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+        -webkit-filter: grayscale(0);
+        filter: grayscale(0);
+    }
+    .pswp-gallery .picture-sm figure {
+        position: relative;
+    }
+    .pswp-gallery .picture-sm figure::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        display: block;
+        content: '';
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.099);
+        border-radius: 100%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    .pswp-gallery .picture-sm figure:hover::before {
+        -webkit-animation: circle .75s;
+        animation: circle .75s;
+    }
+    @-webkit-keyframes circle {
+        0% {
+            opacity: 1;
+        }
+        40% {
+            opacity: 1;
+        }
+        100% {
+            width: 110%;
+            height: 120%;
+            opacity: 0;
+        }
+    }
+    @keyframes circle {
+        0% {
+            opacity: 1;
+        }
+        40% {
+            opacity: 1;
+        }
+        100% {
+            width: 110%;
+            height: 120%;
+            opacity: 0;
+        }
+    }
