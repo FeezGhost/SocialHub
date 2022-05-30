@@ -51,7 +51,7 @@
         content: '';
         width: 0;
         height: 0;
-        background: rgba(255, 255, 255, 0.099);
+        background: #ffffff19;
         border-radius: 100%;
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
@@ -86,4 +86,11 @@
             height: 120%;
             opacity: 0;
         }
+    }
+    .page-link{
+        color: #2d446c !important;
+    }
+    .page-link:hover{
+        background: hsl(217, 28%, 51%) !important;
+        color: #fff !important;
     }

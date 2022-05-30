@@ -13,31 +13,41 @@
 {% block content %}
 <section>
     <div class="container">
-            <div class="pswp-gallery pswp-gallery--single-column d-flex flex-wrap justify-content-evenly align-items-center" id="gallery--getting-started">
-                {% for userPost in userPosts %}
-                    <div class="picture-sm">
-                        <div class="mb-2">
-                            <a href="{{userPost.picture.url}}"
-                                {% if userPost.picture.width > 1500 %}
-                                    data-pswp-width=1500px
-                                {% else %}
-                                    data-pswp-width={{userPost.picture.width}}px
-                                {% endif %}
-                                data-pswp-height={{userPost.picture.height}}px
-                            
-                                data-cropped="true" target="_blank">
-                                <figure>
-                                <img src="{{userPost.picture.url}}" width={{userPost.smWidth}} height = {{userPost.smHeight}}  alt="" />
-                            </figure>
-                                <div class="hidden-caption-content">
-                                    {{userPost.title}}
-                                </div>
-
-                                <div class="hidden-link-content">{% url 'facebookPost' %}</div>
-                            </a>
-                        </div>
-                    </div>
-                {% endfor %}
+        
+        <p>{{userPost.platform}}</p>
+        <br>
+        <div class="d-flex flex-wrap justify-content-evenly align-items-center">
+            <div class="picture-md">
+                <img src="{{userPost.picture.url}}" 
+                {% if userPost.picture.height > 1000 %}    
+                    width=700px
+                    height = 900px
+                    {% else %}
+                    class="img-fluid"
+                    {% endif %}
+                      alt="" />
+            </div>
+            <div class="intro mt-4">
+                <h1>{{userPost.title}}</h1>
+                <hr>
+                <p>{{userPost.description}}</p>
+            </div>
+            <hr>
+            <div class="mt-4">
+                <p>{{userPost.location}}</p>
+                <hr>
+            </div>
+            <div style="flex-basis: 100%;"></div>
+            <div class="tags mt-4 flex-nowrap">
+                        
+                <ul id="tagList"  class="list-group list-group-horizontal">
+                    {% for tag in userPost.tag_set.all %}
+                    <li class="list-group-item  me-2 mb-2">
+                        #{{tag.name}}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </section>
