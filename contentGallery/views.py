@@ -1,13 +1,15 @@
 from unicodedata import name
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from contentGallery.dtos import UserPostListResponseDto
 from contentGallery.models import PostAlbum
 from .forms import PostAlbumForm
 from content_libraries.forms import UserPostForm
-
+from django.contrib import messages
 from content_libraries.models import UserPost
 
 from django.core.paginator import Paginator, EmptyPage
+from dateutil import parser
+from django.utils.timezone import make_aware
 # for multiple clients use 
 #     posts = clients.prefetch_related('client_posts')
 
@@ -44,6 +46,22 @@ def contentDetails(request, pk_id):
     context = {'userPost': uPost}
     return render(request, "contentGallery/contentDetails.html", context=context)
 
+
+def postDetailUpdate(request, pk_id):
+    userPost = UserPost.objects.get(id = pk_id)
+    if request.method == 'POST':
+        try:
+            date = request.POST.get('productdateTime')
+            tempDate = parser.parse(date)
+            newdate = make_aware(tempDate)
+            userPost.dateToBuy = newdate
+            userPost.isSchedule = True
+            userPost.save()
+            messages.success(request, "Post Has Been Updated!")
+        except:
+            messages.error(request, "Failed To Update Post!")
+
+    return redirect('contentDetails', pk_id=userPost.id)
 
 def createAlbum(request):
     albumForm = PostAlbumForm()

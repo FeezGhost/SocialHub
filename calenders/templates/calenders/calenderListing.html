@@ -1,0 +1,188 @@
+{%  extends 'utilaties/dashboard.html' %}
+{% load static %}
+
+{% block header-title %} Post Creation {% endblock header-title %}
+{% block cssStyles %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.css" rel="stylesheet" media="all">
+    
+    <!-- <link href="toastr.css" rel="stylesheet"/>
+    <script src="toastr.js"></script> -->
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{% static '/vendor/fullcalendar/fullcalendar.min.css' %}">
+{% endblock cssStyles %}
+{% block content %}
+<section>
+    <!-- Gutter g-1 -->
+    <div class="container p-5">
+        <div class="card">
+            <div class="row">
+                <div class="col-8">
+                    <div class="body">
+                        <button class="btn btn-primary btn-round waves-effect" id="change-view-today">today</button>
+                        <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-day" >Day</button>
+                        <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-week">Week</button>
+                        <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-month">Month</button>
+                        <div id="calendar" class="" style="width: 100%; display: inline-block;"></div>
+                    </div>
+                </div>
+                <div class="col-4 weekDataClass">
+                    {% for weekBudget in weekBudgets %}
+                        <div class="card">
+                            <h6>{{weekBudget.title}}</h6>
+                            <p>Date: {{weekBudget.currWeekDate}}</p>
+                            <hr>
+                            <p {% if weekBudget.isOverflow %} 
+                                class="text-danger" 
+                                {% else %}
+                                class="text-success" 
+                            {% endif %}><b>Budget: $ {{weekBudget.weekBudget}}</b></p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>    
+    </div>
+</section>
+
+<script src="{% static 'js/fullcalendarscripts.bundle.js' %}"></script><!--/ calender javascripts --> 
+<script>
+    "use strict";
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev',
+            center: 'title',
+            right: 'next'
+        },
+        defaultDate: new Date().toISOString().slice(0, 10)+'',
+        editable: true,
+        droppable: true,
+        aspectRatio: 2,
+        height: 550,
+        drop: function() {
+            if ($('#drop-remove').is(':checked')) {
+                $(this).remove();
+            }
+        },
+        eventLimit: true,
+        events: [
+        {% for post in posts %}
+        {
+            title: '{{post.title}}',
+            start: '{{post.dateToBuy|date:"Y-m-d"}}T{{post.dateToBuy|date:"h:m"}}',
+            url: "{% url 'contentDetails' post.id %}",
+            className: 'b-l b-2x b-greensea'
+        },
+        {% endfor %}
+        ]
+    });
+
+    // Hide default header
+    $('.fc-header').hide();
+
+
+
+    // Previous month action
+    $('#cal-prev').on('click',function(){
+        $('#calendar').fullCalendar( 'prev' );
+    });
+
+    // Next month action
+    $('#cal-next').on('click',function(){
+        $('#calendar').fullCalendar( 'next' );
+    });
+
+    // Change to month view
+    $('#change-view-month').on('click',function(){
+        $('#calendar').fullCalendar('changeView', 'month');
+
+        // safari fix
+        $('#content .main').fadeOut(0, function() {
+            setTimeout( function() {
+                $('#content .main').css({'display':'table'});
+            }, 0);
+        });
+
+    });
+
+    // Change to week view
+    $('#change-view-week').on('click',function(){
+        $('#calendar').fullCalendar( 'changeView', 'agendaWeek');
+
+        // safari fix
+        $('#content .main').fadeOut(0, function() {
+            setTimeout( function() {
+                $('#content .main').css({'display':'table'});
+            }, 0);
+        });
+
+    });
+
+    // Change to day view
+    $('#change-view-day').on('click',function(){
+        $('#calendar').fullCalendar( 'changeView','agendaDay');
+
+        // safari fix
+        $('#content .main').fadeOut(0, function() {
+            setTimeout( function() {
+                $('#content .main').css({'display':'table'});
+            }, 0);
+        });
+
+    });
+
+    // Change to today view
+    $('#change-view-today').on('click',function(){
+        $('#calendar').fullCalendar('today');
+    });
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    $('#external-events .event-control').each(function() {
+
+        // store data so the calendar knows to render an event upon drop
+        $(this).data('event', {
+            title: $.trim($(this).text()), // use the element's text as the event title
+            stick: true // maintain when user navigates (see docs on the renderEvent method)
+        });
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+            zIndex: 999,
+            revert: true,      // will cause the event to go back to its
+            revertDuration: 0  //  original position after the drag
+        });
+
+    });
+
+    $('#external-events .event-control .event-remove').on('click', function(){
+        $(this).parent().remove();
+    });
+</script>
+
+<script>   
+
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }   
+
+
+</script>
+{% endblock content %}

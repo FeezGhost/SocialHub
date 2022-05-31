@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Client
 
-from .forms import CreatUserForm
+from .forms import ClientForm, CreatUserForm, UpdateUserForm
 
 # Create your views here.
 
@@ -56,4 +56,32 @@ def logoutView(request):
 def home(request):
     context = {}
     return render(request,"accounts/home.html",context)
+
+def profile(request):
+    user = request.user
+    client = user.client
+    userform = UpdateUserForm(instance=request.user)
+    clientform = ClientForm(instance=client)
+    if request.method == 'POST':
+        userform = UpdateUserForm(request.POST, instance=request.user)
+        if userform.is_valid():
+            print("hey")
+            userform.save()
+            messages.success(request, "Your Profile Information Has Been Updated!")
+        else:
+            messages.error(request, "There was an Issue While Updating Profile. Please Check If Your Information Is Valid!")
+    context = {'userform': userform, 'clientform': clientform}
+    return render(request,"accounts/profile.html",context)
     
+
+def profileUpdate(request):
+    user = request.user.client
+    if request.method == 'POST':
+        form = ClientForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your Profile Information Has Been Updated!")
+        else:
+            messages.error(request, "There was an Issue While Updating Profile. Please Check If Your Information Is Valid!")
+                
+    return redirect("profile")

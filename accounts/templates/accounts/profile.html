@@ -1,0 +1,166 @@
+{%  extends 'utilaties/dashboard.html' %}
+{% load static %}
+
+{% block header-title %} Post Creation {% endblock header-title %}
+{% block cssStyles %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.css" rel="stylesheet" media="all">
+    
+    <!-- <link href="toastr.css" rel="stylesheet"/>
+    <script src="toastr.js"></script> -->
+    
+{% endblock cssStyles %}
+{% block content %}
+<section>
+    <!-- Gutter g-1 -->
+    <div class="container p-5">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="home" aria-selected="true">Account</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                <form class="form" method="POST">
+                    {% csrf_token %}
+                    <label for="url">First Name</label>
+                    <div class="input-group">
+                        {{userform.first_name}}
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-account-circle"></i>
+                        </span>
+                    </div>
+                    <label for="url">Last Name</label>
+                    <div class="input-group">
+                        {{userform.last_name}}
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-account-circle"></i>
+                        </span>
+                    </div>
+                    <label for="url">Email</label>
+                    <div class="input-group">
+                        {{userform.email}}
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-account-circle"></i>
+                        </span>
+                    </div>
+                    <div class="footer text-center m-r-100 m-l-100">
+                        <button type="submit" class="btn btn-outline-secondary my-4 w-100" value="Add">Save <i class="zmdi  zmdi-chevron-right animated infinite wobble  zmdi-hc-fw"></i></button>
+                        
+                        
+                    </div>
+            </form>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <form class="form" method="POST" enctype="multipart/form-data" 
+                action="{% url 'updateProfile' %}"
+                >
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <img src="{{request.user.client.profile_pic.url}}" class="img-fluid" alt="profile_pic" >
+                            
+                        </div>
+                        <div class="col-lg-5">
+                            <label for="url">Age</label>
+                            <div class="input-group">
+                                {{clientform.age}}
+                                <span class="input-group-addon">
+                                    <i class="zmdi zmdi-account-circle"></i>
+                                </span>
+                            </div>
+                            <label for="url">Gender</label>
+                            <div class="input-group">
+                                {{clientform.gender}}
+                                <span class="input-group-addon">
+                                    <i class="zmdi zmdi-account-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <label for="url">Profile Pic</label>
+                    {{clientform.profile_pic}}
+                    <div class="footer text-center m-r-100 m-l-100">
+                        <button type="submit" class="btn btn-outline-secondary my-4 w-100" value="Add">Save <i class="zmdi  zmdi-chevron-right animated infinite wobble  zmdi-hc-fw"></i></button>
+                        
+                        
+                    </div>
+            </form>
+            </div>
+          </div>
+    </div>
+</section>
+
+
+<script>   
+
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }   
+
+    function addLi()
+    {
+        var txtVal = document.getElementById('tagName').value,
+            listNode = document.getElementById('tagList'),
+            liNode = document.createElement("LI"),
+            txtNode = document.createTextNode(txtVal);
+        if(txtVal == ''){
+            toastr.error('Tag Name Can Not Be Empty!');
+        }
+        else{
+            liNode.appendChild(txtNode);
+            liNode.classList.add("list-group-item");
+            liNode.classList.add("me-2");
+            liNode.classList.add("mb-2");
+            listNode.appendChild(liNode);
+            var tagTxtVal = document.getElementById('tagsValues');
+            tagTxtVal.value += txtVal + ",";
+            document.getElementById('tagName').value = '';
+        }
+    }  
+    
+    const select = (el, all = false) => {
+        el = el.trim()
+        if (all) {
+        return [...document.querySelectorAll(el)]
+        } else {
+        return document.querySelector(el)
+        }
+    }
+
+    let fname = select('#id_first_name');
+    fname.className += ' form-control';
+    let lname = select('#id_last_name');
+    lname.className += ' form-control';
+    let email = select('#id_email');
+    email.className += ' form-control'; 
+    let age = select('#id_age');
+    age.className += ' form-control'; 
+    let gender = select('#id_gender');
+    gender.className += ' form-control'; 
+    let profilePic = select('#id_profile_pic');
+    profilePic.className += ' form-control'; 
+    // des.setAttribute('rows', '5');
+
+</script>
+{% endblock content %}

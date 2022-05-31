@@ -16,6 +16,16 @@
         
         <p>{{userPost.platform}}</p>
         <br>
+        
+        <div class="col-lg-2 col-md-12">
+            <form 
+            action="{% url 'updateContentDetails' userPost.id %}"
+             id="myForm"  method="POST">
+                {% csrf_token %}
+                <input type="datetime-local" class="form-control mydate" id="id_productdateTime", value="{{userPost.dateToBuy|date:"Y-m-d"}}T{{userPost.dateToBuy|date:"h:m"}}" name="productdateTime">
+                <button class="btn btn-primary btn-round" type="submit" id="myBTN">Update Post Date</button>
+            </form>
+        </div>
         <div class="d-flex flex-wrap justify-content-evenly align-items-center">
             <div class="picture-md">
                 <img src="{{userPost.picture.url}}" 

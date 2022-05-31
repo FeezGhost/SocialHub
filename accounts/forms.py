@@ -16,3 +16,17 @@ class CreatUserForm(UserCreationForm):
         model =  User
         fields =  ['username', 'first_name', 'last_name', 'email', 'age', 'password1', 'password2']
 
+
+class UpdateUserForm(forms.ModelForm):
+    
+    class Meta:
+        model =  User
+        fields =  ['first_name', 'last_name', 'email']
+
+
+class ClientForm(forms.ModelForm):
+    
+    class Meta:
+        model = Client
+        fields = '__all__'
+        exclude = ['user']
