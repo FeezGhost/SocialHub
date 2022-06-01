@@ -14,11 +14,32 @@ from django.utils.timezone import make_aware
 #     posts = clients.prefetch_related('client_posts')
 
 def gallery(request):
-    albumForm = UserPostForm()
-    client = request.user.client
+    user = request.user
+    client = user.client
+    clientAlbums = client.client_albums.all()
     userPosts = client.client_posts.all()
     userpostResponseDto = []
-
+    albumId = 0
+    
+    if request.method == 'POST':
+        album_id = request.POST.get('album_id')
+        print('album_id', album_id)
+        if userPosts.exists():
+            for clientAlbum in clientAlbums:
+                print('clientAlbum',clientAlbum)
+                if (clientAlbum.id == int(album_id)):
+                    albumId = clientAlbum.id
+                    album = PostAlbum.objects.get(id=albumId)
+                    print('album', album)
+                    userPosts = album.posts.all()
+                    
+    album_id = request.GET.get('album_id')
+    if(album_id is not None):
+        album_id = int(album_id)
+        if(album_id>0):
+            albumId = album_id
+            album = PostAlbum.objects.get(id=albumId)
+            userPosts = album.posts.all()
     for userp in userPosts:
         userpostResponse =  UserPostListResponseDto(
             title = userp.title,
@@ -27,7 +48,6 @@ def gallery(request):
             smWidth = 450 if userp.picture.width > 550 else userp.picture.width,
             dateToBuy = userp.dateToBuy
         )
-        print("post id", userp.id)
         userpostResponseDto.append(userpostResponse)
     p  = Paginator(userpostResponseDto, 11)
     page_num = request.GET.get('page', 1)
@@ -35,15 +55,17 @@ def gallery(request):
         page = p.page(page_num)
     except EmptyPage:
         page = p.page(1)
-    context = {'userPosts': page}
+    context = {'userPosts': page, 'user': user, 'albums': clientAlbums, 'albumId': albumId}
     return render(request, "contentGallery/default-gallery.html", context=context)
 
 
 def contentDetails(request, pk_id):
+    user = request.user
+    client = user.client
+    clientAlbums = client.client_albums.all()
     albumForm = UserPostForm()
-    client = request.user.client
     uPost = UserPost.objects.get(id=pk_id)
-    context = {'userPost': uPost}
+    context = {'userPost': uPost, 'user': user, 'albums': clientAlbums}
     return render(request, "contentGallery/contentDetails.html", context=context)
 
 
@@ -64,6 +86,9 @@ def postDetailUpdate(request, pk_id):
     return redirect('contentDetails', pk_id=userPost.id)
 
 def createAlbum(request):
+    user = request.user
+    client = user.client
+    clientAlbums = client.client_albums.all()
     albumForm = PostAlbumForm()
     client = request.user.client
     if request.method == 'POST':
@@ -74,13 +99,13 @@ def createAlbum(request):
                 client = client,
                 name = f_name
             )
-    context = {'albumForm': albumForm}
+    context = {'albumForm': albumForm, 'user': user, 'albums': clientAlbums}
     return render(request, "contentGallery/newalbum.html", context=context)
 
 
 def albumList(request):
-    client = request.user.client
+    user = request.user
+    client = user.client
     clientAlbums = client.client_albums.all()
-    albums = PostAlbum.objects.all()
-    context = {'albums': clientAlbums}
+    context = {'albums': clientAlbums,'user': user, }
     return render(request, "contentGallery/albums.html", context=context)

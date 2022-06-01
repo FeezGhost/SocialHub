@@ -29,6 +29,9 @@ def addPostTags(tags: str, Id):
 def createPost(request):
     form = UserPostForm()
 
+    user = request.user
+    client = user.client
+    clientAlbums = client.client_albums.all()
     if request.method == 'POST':
 
         locator = Nominatim(user_agent="myGeocoder")
@@ -81,11 +84,15 @@ def createPost(request):
                 lng = longitude,
                 location = f_location,
                 dateToBuy = tempDate,
-                picture = new_image
+                picture = new_image,
             )
 
             addPostTags(request.POST.get('tags'), userPostObj.id)
             
-    context = {'form': form}
+    context = {
+        'form': form, 
+        'user': user, 
+        'albums': clientAlbums
+        }
     return render(request, "content_libraries/facebook_library.html", context)
 

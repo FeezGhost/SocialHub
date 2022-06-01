@@ -60,6 +60,7 @@ def home(request):
 def profile(request):
     user = request.user
     client = user.client
+    clientAlbums = client.client_albums.all()
     userform = UpdateUserForm(instance=request.user)
     clientform = ClientForm(instance=client)
     if request.method == 'POST':
@@ -70,7 +71,8 @@ def profile(request):
             messages.success(request, "Your Profile Information Has Been Updated!")
         else:
             messages.error(request, "There was an Issue While Updating Profile. Please Check If Your Information Is Valid!")
-    context = {'userform': userform, 'clientform': clientform}
+    context = {'userform': userform, 'clientform': clientform, 
+    'user': user, 'albums': clientAlbums }
     return render(request,"accounts/profile.html",context)
     
 

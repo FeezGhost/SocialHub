@@ -6,8 +6,10 @@ from utilaties.views import getUserMonthPosts
 # Create your views here.
 
 def general(request):
+    user = request.user
+    client = user.client
+    clientAlbums = client.client_albums.all()
     currentDate = datetime.date.today()
-    client = request.user.client
     posts = getUserMonthPosts(request, currentDate)
     
     if request.method == "POST":
@@ -26,5 +28,7 @@ def general(request):
     context = {
         'posts': posts,  
         "date" : currentDate,
+        'user': user, 
+        'albums': clientAlbums
         }
     return render(request,"calenders/calenderListing.html",context)

@@ -130,25 +130,25 @@
             </button>
             <ul class="admin-menu">
                 <li class="menu-heading">
-                    <h3>Admin</h3>
+                    <h3>Gallery</h3>
                 </li>
                 <li>
-                    <a href="#0">
+                    <a href="{% url 'gallery' %}">
                         <svg>
                             <use xlink:href="#pages"></use>
                         </svg>
-                        <span>Pages</span>
+                        <span>Gallery</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#0">
+                {% comment %} <li>
+                    <a href="{% url 'profile' %}">
                         <svg>
                             <use xlink:href="#users"></use>
                         </svg>
-                        <span>Users</span>
+                        <span>Profile</span>
                     </a>
-                </li>
-                <li>
+                </li> {% endcomment %}
+                {% comment %} <li>
                     <a href="#0">
                         <svg>
                             <use xlink:href="#trends"></use>
@@ -157,64 +157,81 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#0">
+                    <a href="{% url 'facebookPost' %}">
                         <svg>
                             <use xlink:href="#collection"></use>
                         </svg>
-                        <span>Collection</span>
+                        <span>Post</span>
                     </a>
-                </li>
+                </li> {% endcomment %}
                 <li>
-                    <a href="#0">
+                    <a href="{% url 'facebookPost' %}">
                         <svg>
                             <use xlink:href="#comments"></use>
                         </svg>
-                        <span>Comments</span>
+                        <span>New Post</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#0">
+                    <a href="{% url 'albums' %}">
                         <svg>
                             <use xlink:href="#appearance"></use>
                         </svg>
-                        <span>Appearance</span>
+                        <span>Albums</span>
                     </a>
                 </li>
+                
+                <li class="menu-heading">
+                    <h3>Calender</h3>
+                </li>
+                <li>
+                    <a href="{% url 'generalCalender' %}">
+                        <svg>
+                            <use xlink:href="#charts"></use>
+                        </svg>
+                        <span>Calender</span>
+                    </a>
+                </li>
+                <li class="menu-heading">
+                    <h3>Albums</h3>
+                </li>
+                {% for album in albums %}
+                    <form id="{{album.id}}" action="{% url 'gallery' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="album_name" value="{{album.name}}">
+                        <input type="hidden" name="album_id" value="{{album.id}}">
+                        <a onclick="document.getElementById('{{album.id}}').submit();">
+                            <li class="ms-4" style="cursor: pointer;"> {{album.name}}</li>
+                        </a>
+                    </form>
+                {% endfor %}
                 <li class="menu-heading">
                     <h3>Settings</h3>
                 </li>
                 <li>
-                    <a href="#0">
+                    <a href="{% url 'profile' %}">
                         <svg>
                             <use xlink:href="#settings"></use>
                         </svg>
                         <span>Settings</span>
                     </a>
                 </li>
-                <li>
+                {% comment %} <li>
                     <a href="#0">
                         <svg>
                             <use xlink:href="#options"></use>
                         </svg>
                         <span>Options</span>
                     </a>
-                </li>
+                </li> {% endcomment %}
                 <li>
-                    <a href="#0">
-                        <svg>
-                            <use xlink:href="#charts"></use>
-                        </svg>
-                        <span>Charts</span>
-                    </a>
-                </li>
-                <li>
-                    <div class="switch">
+                    {% comment %} <div class="switch">
                         <input type="checkbox" id="mode" checked>
                         <label for="mode">
                             <span></span>
                             <span>Dark</span>
                         </label>
-                    </div>
+                    </div> {% endcomment %}
                     <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
                         <svg aria-hidden="true">
                             <use xlink:href="#collapse"></use>
@@ -235,8 +252,9 @@
                     </svg>
                 </button>
             </form>
-            <div class="admin-profile">
-                <span class="greeting">Hello admin</span>
+            <div onclick="navToAccount()" style="cursor: pointer;" class="admin-profile">
+                {% comment %} TODO: ADD USERNAME {% endcomment %}
+                <span class="greeting">{{user.first_name}}  {{user.last_name}}</span>
                 <div class="notifications">
                     <span class="badge">1</span>
                     <svg>
@@ -258,6 +276,9 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
+        function navToAccount() {
+            window.location.href = "{% url 'profile' %}";
+        }
         const html = document.documentElement;
         const body = document.body;
         const menuLinks = document.querySelectorAll(".admin-menu a");
