@@ -1,7 +1,7 @@
 import datetime
 from io import BytesIO
 import sys
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import UserPostForm
 from .models import Tag, UserPost
 from geopy.geocoders import Nominatim
@@ -88,6 +88,7 @@ def createPost(request):
             )
 
             addPostTags(request.POST.get('tags'), userPostObj.id)
+            return redirect('selectAlbum',userPostObj.id)
             
     context = {
         'form': form, 
@@ -96,3 +97,24 @@ def createPost(request):
         }
     return render(request, "content_libraries/facebook_library.html", context)
 
+
+
+def selectPostAlbum(request, pk_id):
+    user = request.user
+    client = user.client
+    clientAlbums = client.client_albums.all()
+    
+    userPost = UserPost.objects.get(id = pk_id)
+    print(userPost)
+    if request.method == 'POST':
+        album_id = request.POST.get('album_id')
+        if clientAlbums.exists():
+            for album in clientAlbums:
+                if (album.id == int(album_id)):
+                    album.posts.add(userPost)
+                    album.save()
+                    post = userPost.save()
+                    # messages.success(request, "Product Added To The Category!")
+                    return redirect('albums')
+    context = {'albums': clientAlbums,'user': user,'userPost': userPost }
+    return render(request, "content_libraries/selectAlbum.html", context=context)
