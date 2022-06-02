@@ -1,0 +1,1 @@
+web: gunicorn SocialHub.wsgi --log-file -
