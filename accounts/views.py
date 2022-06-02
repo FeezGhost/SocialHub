@@ -16,7 +16,7 @@ def userLogin(request):
             login(request, user)
             greet = "Welcome to the CL Dashboard "+request.user.username
             messages.info(request, greet)
-            return redirect('home')
+            return redirect('gallery')
         else:
             messages.error(request, 'Username or Password is incorrect! (Contact admin if you think you are blocked)')
     context = {}
@@ -39,7 +39,7 @@ def userSignup(request):
             greet = "Welcome to the MegaCart "+request.user.username
             messages.info(request, greet)
             login(request, user)
-            return redirect('home')
+            return redirect('gallery')
         else:
             messages.error(request, "Couldn't create account. Please provide correct information!")
 

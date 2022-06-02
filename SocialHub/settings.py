@@ -26,7 +26,7 @@ SECRET_KEY = 'gcjg=a-v1y)8=@+_^lw+ir*bp%8ct-#&gitq*$#qu^(4nmgl59'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 if DEBUG:
     import mimetypes

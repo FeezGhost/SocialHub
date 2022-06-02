@@ -4,7 +4,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.conf import settings
 
+from . import views
+
 urlpatterns = [
+    path('', views.loginred),
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("library/", include("content_libraries.urls")),
