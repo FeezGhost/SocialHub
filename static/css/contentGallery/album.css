@@ -1,0 +1,92 @@
+html, body {
+    height: 100%;
+  }
+  
+  li {
+    display: inline;
+  }
+  
+  body {
+    background-color: #262626;
+    margin: 0;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .simpleCart_quantity, a, h2 {
+    color: #a5a5a5;
+  }
+  
+  .a, #nav, a.mainlink, h2, #cart, .item_add, .item_Quantity {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  
+  #cart a {
+    display: block;
+    color: #5b5b5b;
+    padding: 11px 14px;
+  }
+  
+  #cart {
+    font-size: 13px;
+  }
+  
+  .simpleCart_checkout {
+    text-align: center;
+  }
+  
+  #pages li a, .mainlink, .item_add {
+    padding: 10px 14px;
+  }
+  
+  .active a, .item_add {
+    color: #a5a5a5;
+  }
+  
+  .active a, .item_add, .inactive a:hover, #cart a:hover, #collection:hover {
+    border: 2px #a5a5a5 solid;
+    border-radius: 2px;
+  }
+  
+  .active a:hover, .item_add:hover, .inactive a:hover, #cart a:hover, #collection:hover {
+    color: #2b2b2b;
+    background-color: #a5a5a5;
+  }
+  
+  .inactive a, #cart a {
+    border: 2px #a5a5a5 solid;
+    border-radius: 2px;
+  }
+  
+  #cart {
+    float: right;
+    margin: 10px 10px 0 0;
+    width: 100px;
+    position: relative;
+    cursor: pointer;
+  }
+  #cart:before {
+    opacity: 0;
+    content: 'Checkout';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: red;
+    text-align: center;
+    line-height: 40px;
+    /* try removing this and see what happens */
+    pointer-events: none;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
+  #cart:hover:before {
+    opacity: 1;
+  }
+  

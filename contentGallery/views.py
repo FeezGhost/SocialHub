@@ -111,6 +111,14 @@ def createAlbum(request):
         return redirect('albums')
 
 @login_required(login_url="login")
+def deleteAlbum(request, pk_id):
+    albumToDelete = PostAlbum.objects.get(id=pk_id)
+    albumToDelete.delete()
+    messages.warning(request, "Album Deleted!")
+    return redirect('albums')
+
+
+@login_required(login_url="login")
 def albumList(request):
     user = request.user
     client = user.client

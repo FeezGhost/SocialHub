@@ -4,71 +4,145 @@
 {% block header-title %} Post Creation {% endblock header-title %}
 {% block cssStyles %}
 
-    <!-- jquery import -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<!-- jquery import -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.css" rel="stylesheet" media="all">
-    
-    <script src="https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js"></script>
-    <!-- <link href="toastr.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+  integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.css" rel="stylesheet" media="all">
+<!-- <link href="toastr.css" rel="stylesheet"/>
     <script src="toastr.js"></script> -->
+<style>
+  html,
+  body {
+    height: 100%;
+  }
+
+
+  a {
+    text-decoration: none;
+  }
+
+  .a,
+  #nav,
+  a.mainlink,
+  h2,
+  #card{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+
+  #pages li a,
+  .mainlink,
+  .item_add {
+    padding: 10px 14px;
+  }
+
+  .active a,
+  .item_add,
+  .inactive a:hover,
+  #card a:hover,
+  #collection:hover {
+    border-radius: 2px;
+  }
+
+
+  .inactive a,
+  #card a {
+    border-radius: 2px;
+  }
+
+  #card {
+    cursor: pointer;
+  }
+
+  #card:before {
+    /* Content and font */
+    content: 'Delete';
+    font-size: larger;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    /* position and size */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* intial size for animation */
+    transform: scaleX(0);
+    transform-origin: right;
+    /* colors and others for animation */
+    background: #ff1a5b;
+    color: white;
+    padding-top: 2%;
+    pointer-events: none;
+    /* animation transitions */
+    -moz-transition: all 0.5s cubic-bezier(0.05, 0.25, 0.42, 0.98);
+    -o-transition: all 0.5s cubic-bezier(0.05, 0.25, 0.42, 0.98);
+    -webkit-transition: all 0.5s cubic-bezier(0.05, 0.25, 0.42, 0.98);
+    transition: all 0.5s cubic-bezier(0.05, 0.25, 0.42, 0.98);
+  }
+  #card:hover:before {
+    transform: scaleX(1);
+  }
+</style>
 {% endblock cssStyles %}
 {% block content %}
 <section>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#albumModal">Create New Album</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#albumModal">Create New
+    Album</button>
+  <!-- Gutter g-1 -->
 
-    <!-- Gutter g-1 -->
-    <div class="container p-5 mt-5 pt-5">
-        <div class="row clearfix m-r-70 m-l-70 m-t-30">
-            {% for ualbum in ualbums %}
-              <div class="col-lg-12 text-center content-centers">
-                <div class="card data-usage category-card">
-                <div class="card-header">
-                    <div class="row clearfix m-r-70 m-l-70 mt-2 ">
-                        <div class="col-lg-12 d-flex justify-content-between align-items-start">
-                            <h2 class="display h4 text-primary primary-d">{{ualbum.album.name}} </h2>
-                            <span class="badge bg-primary rounded-pill">{{ualbum.posts_count}}</span>
-                        </div>
-
-                            {% comment %} <div class="col-lg-6">
-                                <a class="waves-effect waves-light" href="" ><i class="category-delete zmdi zmdi-delete "></i></a>
-                            </div> {% endcomment %}
-                            {% comment %} <div class="col-lg-6">
-                                <a class="waves-effect waves-light" href="{% url 'newSubCategory' category.id %}" ><i class="category-new zmdi zmdi-plus-circle" ></i></a>
-                            </div>                         {% endcomment %}
-                    </div>
-                </div>
-                </div>
+  <div class="container p-5 mt-5 pt-5">
+    <div class="row clearfix m-r-70 m-l-70 m-t-30">
+      {% for ualbum in ualbums %}
+      <div class="col-lg-12 text-center content-centers ">
+        <div id="card" class="card data-usage category-card">
+          <a href="{% url 'deleteAlbum' ualbum.album.id %}">
+          <div class="card-header">
+            <div class="row clearfix m-r-70 m-l-70 mt-2 ">
+              <div class="col-lg-12 d-flex justify-content-between align-items-start">
+                <h2 class="display h4 text-primary primary-d">{{ualbum.album.name}} </h2>
+                <span class="badge bg-primary rounded-pill">{{ualbum.posts_count}}</span>
               </div>
-            {% endfor %}
+            </div>
+          </div>
+          </a>
         </div>
-        
+      </div>
+      {% endfor %}
     </div>
-    
-<div class="modal fade" id="albumModal" tabindex="-1" aria-labelledby="albumModalLabel" aria-hidden="true">
+
+  </div>
+
+  <div class="modal fade" id="albumModal" tabindex="-1" aria-labelledby="albumModalLabel" aria-hidden="true">
     <div class="modal-dialog   modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title me-4" id="albumModalLabel">New Album</h5>
           <hr>
-          
-      <div class="modal-body modal-nested-body">
-        
+
+          <div class="modal-body modal-nested-body">
+
             <form action="{% url 'createAlbum' %}" method="POST">
-                {% csrf_token %}
-                <div class="row g-1">
-                    <div class="col">
-                        <!-- Name input -->
-                        <div class="form-outline">
-                            {{albumForm.name}}
-                        </div>
-                        
-                    <button type="submit" class="btn btn-outline-secondary my-4 w-100">Add Album</button>
-                    </div>
+              {% csrf_token %}
+              <div class="row g-1">
+                <div class="col">
+                  <!-- Name input -->
+                  <div class="form-outline">
+                    {{albumForm.name}}
+                  </div>
+
+                  <button type="submit" class="btn btn-outline-secondary my-4 w-100">Add Album</button>
                 </div>
+              </div>
             </form>
-      </div>
+          </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
       </div>
@@ -76,23 +150,18 @@
   </div>
 </section>
 
-<script>   
-
- 
-
-    const select = (el, all = false) => {
-        el = el.trim()
-        if (all) {
-        return [...document.querySelectorAll(el)]
-        } else {
-        return document.querySelector(el)
-        }
+<script>
+  const select = (el, all = false) => {
+    el = el.trim()
+    if (all) {
+      return [...document.querySelectorAll(el)]
+    } else {
+      return document.querySelector(el)
     }
+  }
 
-    let form_name = select('#id_name');
-    form_name.className += ' form-control';
-    form_name.setAttribute('placeholder', 'Enter Album Name');
-
-
+  let form_name = select('#id_name');
+  form_name.className += ' form-control';
+  form_name.setAttribute('placeholder', 'Enter Album Name');
 </script>
 {% endblock content %}
