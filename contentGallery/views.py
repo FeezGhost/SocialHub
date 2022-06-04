@@ -108,13 +108,13 @@ def createAlbum(request):
             messages.success(request, "Album has been created!")
         else:
             messages.error(request, "Couldn't Create Album!")
-    context = {'albumForm': albumForm, 'user': user, 'albums': clientAlbums}
-    return render(request, "contentGallery/newalbum.html", context=context)
+        return redirect('albums')
 
 @login_required(login_url="login")
 def albumList(request):
     user = request.user
     client = user.client
+    albumForm = PostAlbumForm()
     clientAlbums = client.client_albums.all()
     albums = []
     for album in clientAlbums:
@@ -122,5 +122,5 @@ def albumList(request):
             album = album,
             posts_count = album.posts.all().count()
         ))
-    context = {'ualbums': albums,'user': user, 'albums':  clientAlbums}
+    context = {'ualbums': albums,'user': user, 'albums':  clientAlbums,'albumForm': albumForm}
     return render(request, "contentGallery/albums.html", context=context)

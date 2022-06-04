@@ -16,6 +16,8 @@
 {% endblock cssStyles %}
 {% block content %}
 <section>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#albumModal">Create New Album</button>
+
     <!-- Gutter g-1 -->
     <div class="container p-5 mt-5 pt-5">
         <div class="row clearfix m-r-70 m-l-70 m-t-30">
@@ -43,6 +45,35 @@
         </div>
         
     </div>
+    
+<div class="modal fade" id="albumModal" tabindex="-1" aria-labelledby="albumModalLabel" aria-hidden="true">
+    <div class="modal-dialog   modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title me-4" id="albumModalLabel">New Album</h5>
+          <hr>
+          
+      <div class="modal-body modal-nested-body">
+        
+            <form action="{% url 'createAlbum' %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-1">
+                    <div class="col">
+                        <!-- Name input -->
+                        <div class="form-outline">
+                            {{albumForm.name}}
+                        </div>
+                        
+                    <button type="submit" class="btn btn-outline-secondary my-4 w-100">Add Album</button>
+                    </div>
+                </div>
+            </form>
+      </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <script>   
@@ -61,6 +92,7 @@
     let form_name = select('#id_name');
     form_name.className += ' form-control';
     form_name.setAttribute('placeholder', 'Enter Album Name');
+
 
 </script>
 {% endblock content %}

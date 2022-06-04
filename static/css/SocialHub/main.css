@@ -61,6 +61,13 @@ ul {
 .btn-outline-secondary:hover{
     background-color: #354f7e;
 }
+.modal-nested-body{
+    color: #1d2636 !important;
+    border-left: #1d2636 5px solid;
+}
+.modal-title{
+    color: #1d2636 !important;
+}
 a,
 button {
     color: inherit;
