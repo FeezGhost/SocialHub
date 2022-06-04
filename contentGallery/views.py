@@ -10,9 +10,11 @@ from content_libraries.models import UserPost
 from django.core.paginator import Paginator, EmptyPage
 from dateutil import parser
 from django.utils.timezone import make_aware
+from django.contrib.auth.decorators import login_required
 # for multiple clients use 
 #     posts = clients.prefetch_related('client_posts')
 
+@login_required(login_url="login")
 def gallery(request):
     user = request.user
     client = user.client
@@ -60,6 +62,7 @@ def gallery(request):
     return render(request, "contentGallery/default-gallery.html", context=context)
 
 
+@login_required(login_url="login")
 def contentDetails(request, pk_id):
     user = request.user
     client = user.client
@@ -70,6 +73,7 @@ def contentDetails(request, pk_id):
     return render(request, "contentGallery/contentDetails.html", context=context)
 
 
+@login_required(login_url="login")
 def postDetailUpdate(request, pk_id):
     userPost = UserPost.objects.get(id = pk_id)
     if request.method == 'POST':
@@ -86,6 +90,7 @@ def postDetailUpdate(request, pk_id):
 
     return redirect('contentDetails', pk_id=userPost.id)
 
+@login_required(login_url="login")
 def createAlbum(request):
     user = request.user
     client = user.client
@@ -100,10 +105,13 @@ def createAlbum(request):
                 client = client,
                 name = f_name
             )
+            messages.success(request, "Album has been created!")
+        else:
+            messages.error(request, "Couldn't Create Album!")
     context = {'albumForm': albumForm, 'user': user, 'albums': clientAlbums}
     return render(request, "contentGallery/newalbum.html", context=context)
 
-
+@login_required(login_url="login")
 def albumList(request):
     user = request.user
     client = user.client

@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
+from utilaties.permisions import unauthenticated_user
 from .models import Client
 
 from .forms import ClientForm, CreatUserForm, UpdateUserForm
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@unauthenticated_user
 def userLogin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -14,7 +17,7 @@ def userLogin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            greet = "Welcome to the CL Dashboard "+request.user.username
+            greet = "Welcome to the Social Hub "+request.user.username
             messages.info(request, greet)
             return redirect('gallery')
         else:
@@ -22,6 +25,7 @@ def userLogin(request):
     context = {}
     return render(request,"accounts/login.html",context)
 
+@unauthenticated_user
 def userSignup(request):
     form = CreatUserForm()
     if request.method == 'POST':
@@ -46,7 +50,7 @@ def userSignup(request):
     context = {'form': form}
     return render(request,"accounts/signup.html",context)
 
-
+@login_required(login_url="login")
 def logoutView(request):
     logout(request)
     messages.info(request, "Hope to see you again!")
@@ -57,6 +61,7 @@ def home(request):
     context = {}
     return render(request,"accounts/home.html",context)
 
+@login_required(login_url="login")
 def profile(request):
     user = request.user
     client = user.client
@@ -75,7 +80,7 @@ def profile(request):
     'user': user, 'albums': clientAlbums, 'client': client }
     return render(request,"accounts/profile.html",context)
     
-
+@login_required(login_url="login")
 def profileUpdate(request):
     user = request.user.client
     if request.method == 'POST':

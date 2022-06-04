@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from django.contrib.messages import constants as messages
 from pathlib import Path
 import os
 
@@ -23,6 +24,13 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'gcjg=a-v1y)8=@+_^lw+ir*bp%8ct-#&gitq*$#qu^(4nmgl59'
 
+MESSAGE_TAGS = {
+        messages.DEBUG: 'secondary',
+        messages.INFO: 'info',
+        messages.SUCCESS: 'success',
+        messages.WARNING: 'warning',
+        messages.ERROR: 'error',
+ }
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -31,6 +39,7 @@ ALLOWED_HOSTS = ["*"]
 if DEBUG:
     import mimetypes
     mimetypes.add_type("application/javascript", ".js", True)
+
 # Application definition
 
 INSTALLED_APPS = [

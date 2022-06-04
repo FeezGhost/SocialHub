@@ -2,9 +2,10 @@ import datetime
 from django.shortcuts import render
 from django.contrib import messages
 from utilaties.views import getUserMonthPosts
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required(login_url="login")
 def general(request):
     user = request.user
     client = user.client

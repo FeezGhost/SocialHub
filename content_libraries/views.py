@@ -1,4 +1,5 @@
 import datetime
+import imp
 from io import BytesIO
 import sys
 from django.shortcuts import redirect, render
@@ -10,6 +11,8 @@ from django.utils.timezone import make_aware
 from PIL import Image
 from django.core.files import File
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def addPostTags(tags: str, Id):
     tagsList = tags.split(",")
@@ -26,6 +29,7 @@ def addPostTags(tags: str, Id):
                     name = tag
                 )
 
+@login_required(login_url="login")
 def createPost(request):
     form = UserPostForm()
 
@@ -86,10 +90,12 @@ def createPost(request):
                 dateToBuy = tempDate,
                 picture = new_image,
             )
+            messages.success(request, "Your Post has been created!")
 
             addPostTags(request.POST.get('tags'), userPostObj.id)
             return redirect('selectAlbum',userPostObj.id)
-            
+        else:
+            messages.error(request, "Please provide valid info for post!")    
     context = {
         'form': form, 
         'user': user, 
@@ -98,7 +104,7 @@ def createPost(request):
     return render(request, "content_libraries/facebook_library.html", context)
 
 
-
+@login_required(login_url="login")
 def selectPostAlbum(request, pk_id):
     user = request.user
     client = user.client
@@ -113,7 +119,7 @@ def selectPostAlbum(request, pk_id):
                     album.posts.add(userPost)
                     album.save()
                     post = userPost.save()
-                    # messages.success(request, "Product Added To The Category!")
+                    messages.success(request, "Post added to the album "+album.name+"!")
                     return redirect('gallery')
     context = {'albums': clientAlbums,'user': user,'userPost': userPost }
     return render(request, "content_libraries/selectAlbum.html", context=context)
