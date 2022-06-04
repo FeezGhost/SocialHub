@@ -20,7 +20,7 @@
     <div class="container p-5 mt-5 pt-5">
         <div class="row clearfix m-r-70 m-l-70 m-t-30">
             {% for album in albums %}
-              <div class="col-lg-12 text-center content-centers">
+              {% comment %} <div class="col-lg-12 text-center content-centers">
                 <div class="card data-usage category-card">
                 <div class="card-header">
                     <div class="row clearfix m-r-70 m-l-70 mt-2">
@@ -33,51 +33,16 @@
                 </div>
                 </div>
               </div>
-              
+               {% endcomment %}
               <form id="{{album.id}}" action="{% url 'selectAlbum' userPost.id %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="album_name" value="{{album.name}}">
                 <input type="hidden" name="album_id" value="{{album.id}}">
-                <button class="btn btn-primary" type="submit">{{album.name}}</button>
+                <button class="btn btn-primary p-4 my-4 w-100" type="submit"><h2>{{album.name}} </h2></button>
             </form>
             {% endfor %}
         </div>
         
     </div>
 </section>
-
-<script>   
-
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": true,
-      "progressBar": true,
-      "positionClass": "toast-top-center",
-      "preventDuplicates": true,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }   
-
-    const select = (el, all = false) => {
-        el = el.trim()
-        if (all) {
-        return [...document.querySelectorAll(el)]
-        } else {
-        return document.querySelector(el)
-        }
-    }
-
-    let form_name = select('#id_name');
-    form_name.className += ' form-control';
-    form_name.setAttribute('placeholder', 'Enter Album Name');
-
-</script>
 {% endblock content %}
