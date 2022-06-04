@@ -1,6 +1,6 @@
 from unicodedata import name
 from django.shortcuts import redirect, render
-from contentGallery.dtos import UserPostListResponseDto
+from contentGallery.dtos import AlbumsListResponseDto, UserPostListResponseDto
 from contentGallery.models import PostAlbum
 from .forms import PostAlbumForm
 from content_libraries.forms import UserPostForm
@@ -43,6 +43,7 @@ def gallery(request):
     for userp in userPosts:
         userpostResponse =  UserPostListResponseDto(
             title = userp.title,
+            pk_id = userp.id,
             picture = userp.picture,
             smHeight = 300 if userp.picture.height > 300 else userp.picture.height,
             smWidth = 450 if userp.picture.width > 550 else userp.picture.width,
@@ -107,5 +108,11 @@ def albumList(request):
     user = request.user
     client = user.client
     clientAlbums = client.client_albums.all()
-    context = {'albums': clientAlbums,'user': user, }
+    albums = []
+    for album in clientAlbums:
+        albums.append(AlbumsListResponseDto(
+            album = album,
+            posts_count = album.posts.all().count()
+        ))
+    context = {'ualbums': albums,'user': user, 'albums':  clientAlbums}
     return render(request, "contentGallery/albums.html", context=context)

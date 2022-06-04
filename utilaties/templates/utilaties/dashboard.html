@@ -257,9 +257,10 @@
                 <span class="greeting">{{user.first_name}}  {{user.last_name}}</span>
                 <div class="notifications">
                     <span class="badge">1</span>
-                    <svg>
+                    {% comment %} <img src="{{client.profile_pic.url}}" class="rounded float-end" alt="..."> {% endcomment %}
+                    {% comment %} <svg>
                         <use xlink:href="#users"></use>
-                    </svg>
+                    </svg> {% endcomment %}
                 </div>
             </div>
         </section>

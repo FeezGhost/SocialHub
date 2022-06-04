@@ -105,7 +105,6 @@ def selectPostAlbum(request, pk_id):
     clientAlbums = client.client_albums.all()
     
     userPost = UserPost.objects.get(id = pk_id)
-    print(userPost)
     if request.method == 'POST':
         album_id = request.POST.get('album_id')
         if clientAlbums.exists():
@@ -115,6 +114,6 @@ def selectPostAlbum(request, pk_id):
                     album.save()
                     post = userPost.save()
                     # messages.success(request, "Product Added To The Category!")
-                    return redirect('albums')
+                    return redirect('gallery')
     context = {'albums': clientAlbums,'user': user,'userPost': userPost }
     return render(request, "content_libraries/selectAlbum.html", context=context)

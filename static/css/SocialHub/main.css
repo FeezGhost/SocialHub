@@ -44,7 +44,23 @@
 ul {
     list-style: none;
 }
+.bg-primary, .btn-primary{
+    background-color: #2d446c !important;
+}
 
+.text-primary,  .fc-button{
+    color: #1d2636 !important;
+}
+.fc-button{
+    background: #354f7e !important;
+    color: white !important;
+}
+.fc-center, .nav-link{
+    color: #2d446c !important;
+}
+.btn-outline-secondary:hover{
+    background-color: #354f7e;
+}
 a,
 button {
     color: inherit;

@@ -72,7 +72,7 @@ def profile(request):
         else:
             messages.error(request, "There was an Issue While Updating Profile. Please Check If Your Information Is Valid!")
     context = {'userform': userform, 'clientform': clientform, 
-    'user': user, 'albums': clientAlbums }
+    'user': user, 'albums': clientAlbums, 'client': client }
     return render(request,"accounts/profile.html",context)
     
 
