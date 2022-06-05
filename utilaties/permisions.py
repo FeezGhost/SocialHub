@@ -7,7 +7,7 @@ def unauthenticated_user(view_func):
 		if request.user.is_authenticated:
 			# if request.user.is_staff:
 			# 	return redirect('adminDashboard')
-			return redirect('dashboard')
+			return redirect('gallery')
 		else:
 			return view_func(request, *args, **kwargs)
 

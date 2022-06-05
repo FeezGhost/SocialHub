@@ -99,7 +99,8 @@ def createPost(request):
     context = {
         'form': form, 
         'user': user, 
-        'albums': clientAlbums
+        'albums': clientAlbums,
+        'client': client
         }
     return render(request, "content_libraries/facebook_library.html", context)
 
@@ -121,5 +122,5 @@ def selectPostAlbum(request, pk_id):
                     post = userPost.save()
                     messages.success(request, "Post added to the album "+album.name+"!")
                     return redirect('gallery')
-    context = {'albums': clientAlbums,'user': user,'userPost': userPost }
+    context = {'albums': clientAlbums,'user': user,'userPost': userPost, 'client': client }
     return render(request, "content_libraries/selectAlbum.html", context=context)

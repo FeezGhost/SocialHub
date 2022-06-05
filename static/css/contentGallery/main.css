@@ -94,3 +94,15 @@
         background: hsl(217, 28%, 51%) !important;
         color: #fff !important;
     }
+    .platform{
+        background: #7c1ebaa3;color: white;border-radius: 4%;
+        font-family: 'Raleway', sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 18px;
+        border-bottom: #2d446c 2px solid;
+        border-right: #2d446c 2px solid;
+        border-left: #2d446c 2px solid;
+        box-shadow: 0 3px 5px 0 #2d446c7e, 0 8px 23px 0 #2d446c5c;
+    }

@@ -13,18 +13,23 @@
 {% block content %}
 <section>
     <div class="container">
-        
-        <p>{{userPost.platform}}</p>
+        <div class="text-center">
+            <p class="platform py-1">{{userPost.platform}}</p>
+        </div>
         <br>
-        
-        <div class="col-lg-2 col-md-12">
-            <form 
-            action="{% url 'updateContentDetails' userPost.id %}"
-             id="myForm"  method="POST">
-                {% csrf_token %}
-                <input type="datetime-local" class="form-control mydate" id="id_productdateTime", value="{{userPost.dateToBuy|date:"Y-m-d"}}T{{userPost.dateToBuy|date:"h:m"}}" name="productdateTime">
-                <button class="btn btn-primary btn-round" type="submit" id="myBTN">Update Post Date</button>
-            </form>
+        <div class="d-flex justify-content-between">
+            <div class="">
+                <form 
+                action="{% url 'updateContentDetails' userPost.id %}"
+                id="myForm"  method="POST">
+                    {% csrf_token %}
+                    <input type="datetime-local" class="form-control mydate" id="id_productdateTime", value="{{userPost.dateToBuy|date:"Y-m-d"}}T{{userPost.dateToBuy|date:"h:m"}}" name="productdateTime">
+                    <button class="btn btn-primary btn-round" type="submit" id="myBTN">Update Post Date</button>
+                </form>
+            </div>
+            <div class="">
+                <a class="btn btn-primary btn-round" href="{% url 'selectAlbum' userPost.id %}">Add Album</a>
+            </div>
         </div>
         <div class="d-flex flex-wrap justify-content-evenly align-items-center mt-4">
             <div class="picture-md">

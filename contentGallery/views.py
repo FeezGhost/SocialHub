@@ -58,7 +58,7 @@ def gallery(request):
         page = p.page(page_num)
     except EmptyPage:
         page = p.page(1)
-    context = {'userPosts': page, 'user': user, 'albums': clientAlbums, 'albumId': albumId}
+    context = {'userPosts': page, 'user': user, 'albums': clientAlbums, 'albumId': albumId,'client': client}
     return render(request, "contentGallery/default-gallery.html", context=context)
 
 
@@ -69,7 +69,7 @@ def contentDetails(request, pk_id):
     clientAlbums = client.client_albums.all()
     albumForm = UserPostForm()
     uPost = UserPost.objects.get(id=pk_id)
-    context = {'userPost': uPost, 'user': user, 'albums': clientAlbums}
+    context = {'userPost': uPost, 'user': user, 'albums': clientAlbums, 'client': client}
     return render(request, "contentGallery/contentDetails.html", context=context)
 
 
@@ -130,5 +130,5 @@ def albumList(request):
             album = album,
             posts_count = album.posts.all().count()
         ))
-    context = {'ualbums': albums,'user': user, 'albums':  clientAlbums,'albumForm': albumForm}
+    context = {'ualbums': albums,'user': user, 'albums':  clientAlbums,'albumForm': albumForm, 'client': client}
     return render(request, "contentGallery/albums.html", context=context)

@@ -13,11 +13,21 @@
     <script src="https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js"></script>
     <!-- <link href="toastr.css" rel="stylesheet"/>
     <script src="toastr.js"></script> -->
+    <style>
+        
+    .myText{
+        font-family: 'Raleway', sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+    </style>
 {% endblock cssStyles %}
 {% block content %}
 <section>
     <!-- Gutter g-1 -->
     <div class="container p-5 mt-5 pt-5">
+        <h1 class="myText text-primary">Select Album For Post</h1>
+        <hr>
         <div class="row clearfix m-r-70 m-l-70 m-t-30">
             {% for album in albums %}
               {% comment %} <div class="col-lg-12 text-center content-centers">
@@ -38,7 +48,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="album_name" value="{{album.name}}">
                 <input type="hidden" name="album_id" value="{{album.id}}">
-                <button class="btn btn-primary p-4 my-4 w-100" type="submit"><h2>{{album.name}} </h2></button>
+                <button class="btn btn-primary p-4 my-4 w-100" type="submit"><h2 class="myText">{{album.name}} </h2></button>
             </form>
             {% endfor %}
         </div>
