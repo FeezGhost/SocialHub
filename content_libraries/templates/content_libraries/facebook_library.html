@@ -26,7 +26,7 @@
                         <input id="id_startDate"  name="startDate" class="form-control" type="datetime-local" />
                         <span id="startDate"></span>
                     </div>        
-                    <a class="btn btn-outline-secondary" onclick="addLocation()">Add Current Location</a>  
+                    {% comment %} <a class="btn btn-outline-secondary" onclick="addLocation()">Add Current Location</a>   {% endcomment %}
             </div>
             {{form.location}}
             <hr>
@@ -143,7 +143,7 @@
     let des = select('#id_description');
     des.setAttribute('rows', '5');
 
-    function addLocation(){
+    {% comment %} function addLocation(){
         const sucessCallback = (position) => {
             const lat = document.getElementById('latitude');
             const lng = document.getElementById('longitude');
@@ -158,7 +158,7 @@
             enableHighAccuracy: true,
             timeout: 5000
         });
-    }
+    } {% endcomment %}
 </script>
 <script>
 const { TABS, TOOLS } = window.FilerobotImageEditor;

@@ -5,7 +5,7 @@ import sys
 from django.shortcuts import redirect, render
 from .forms import UserPostForm
 from .models import Tag, UserPost
-from geopy.geocoders import Nominatim
+# from geopy.geocoders import Nominatim
 from dateutil import parser
 from django.utils.timezone import make_aware
 from PIL import Image
@@ -38,7 +38,7 @@ def createPost(request):
     clientAlbums = client.client_albums.all()
     if request.method == 'POST':
 
-        locator = Nominatim(user_agent="myGeocoder")
+        # locator = Nominatim(user_agent="myGeocoder")
         form = UserPostForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -63,13 +63,13 @@ def createPost(request):
             longitude = 0 if longitude =='' else float(longitude)
             coordinates = str(latitude) + ", " + str(longitude)
 
-            if(f_location == '' or f_location == None): 
-                geo_location = locator.reverse(coordinates)
-                f_location = geo_location.address
-            else :
-                geo_location = locator.geocode(f_location)
-                latitude = float(geo_location.latitude)
-                longitude = float(geo_location.longitude)
+            # if(f_location == '' or f_location == None): 
+            #     geo_location = locator.reverse(coordinates)
+            #     f_location = geo_location.address
+            # else :
+            #     geo_location = locator.geocode(f_location)
+            #     latitude = float(geo_location.latitude)
+            #     longitude = float(geo_location.longitude)
             date = request.POST.get('startDate')
             tempDate = datetime.datetime.now()
 
