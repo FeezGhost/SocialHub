@@ -361,7 +361,6 @@
         });
     </script>
     <script>
-  
         toastr.options = {
           "closeButton": true,
           "debug": false,
@@ -382,7 +381,7 @@
         {% for message in messages %}
         toastr.{{ message.tags }}('{{ message }}')
         {% endfor %}
-      </script>
+    </script>
 </body>
 
 </html>

@@ -21,14 +21,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="body">
-                        <button class="btn btn-primary btn-round waves-effect" id="change-view-today">today</button>
+                        {% comment %} <button class="btn btn-primary btn-round waves-effect" id="change-view-today">today</button>
                         <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-day" >Day</button>
                         <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-week">Week</button>
-                        <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-month">Month</button>
+                        <button class="btn btn-default btn-simple btn-round waves-effect" id="change-view-month">Month</button> {% endcomment %}
                         <div id="calendar" class="mt-2" style="width: 100%; display: inline-block;"></div>
                     </div>
                 </div>
-                <div class="col-4 weekDataClass">
+                {% comment %} <div class="col-4 weekDataClass">
                     {% for weekBudget in weekBudgets %}
                         <div class="card">
                             <h6>{{weekBudget.title}}</h6>
@@ -41,7 +41,7 @@
                             {% endif %}><b>Budget: $ {{weekBudget.weekBudget}}</b></p>
                         </div>
                     {% endfor %}
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>    
     </div>
@@ -69,7 +69,7 @@
                                 {{userPost.title}}
                             </div>
 
-                            <div class="hidden-link-content">{% url 'facebookPost' %}</div>
+                            <div class="hidden-link-content">{% url 'contentDetails' userPost.id %}</div>
                         </a>
                     </div>
                 </div>
